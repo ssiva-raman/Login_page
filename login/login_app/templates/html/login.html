@@ -1,0 +1,78 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login_page</title>
+
+<!-- fontawsome -->
+    <script src="https://kit.fontawesome.com/9903d03c99.js" crossorigin="anonymous"></script>
+
+<!-- tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+<!-- import css -->
+    <link rel="stylesheet" href={% static "css/style.css"%} >
+
+</head>
+<body id='bg' style="background-image: url('{% static "image/bg1.jpg"%}')"; class=" bg-cover ">
+
+    <div class=" mt-12 grid place-content-end mr-24  overflow-none  "> 
+
+<!-- Error message tag -->
+        {% if error_message %}
+        <div class="flex justify-center text-red-600 text-xl text-bold underline underline-offset-2">
+            <h2>{{ error_message }}</h2>
+        </div>
+        {%endif %}   
+        <br>
+
+<!-- buttons above login form -->      
+        <div class="flex flex-row  ">
+            <button id="register_btn" style="background-color: #f0abac; " class="text-xl grid place-content-start hover:scale-110 hover:bg-red-500 hover:ring-2 duration-500 text-white px-2 ">Login </button>
+            <a href="{% url 'register' %}" id="login_btn" class="relative text-xl mx-1 px-3 text-lg hover:scale-110 hover:ring-2 duration-500 ">Register</a>
+        </div>
+
+<!-- Login slide -->
+        <div id="d_login"  class=" grid place-content-end ">
+            <form id="login_form" style="background-color: #f0abac;"  method="POST" autocomplete="off" class=" relative flex flex-col space-y-10 justify-center px-20 py-12">
+                {% csrf_token %}
+                <input class="rounded-full p-1 px-6 " type="text" name="username" id="name" placeholder="Name ..." required>
+                <input class="relative rounded-full p-1 px-6 " type="password" name="password" id="pswd" placeholder="password ..." required>
+                <i id="show_eye" class="absolute fa-regular fa-eye text-m "></i>
+                <br>
+                <a href="{% url 'account_reset_password' %}" class="absolute bottom-28 left-24 text-md underline underline-offset-2 " >forget password?</a>
+                <button class="rounded-full p-1 px-2 mx-10 bg-zinc-100 hover:scale-110 duration-300" type="submit" value="submit" >login</button>
+            </form>
+            
+        </div>
+        
+
+<!-- google authentication -->
+            <div class="">
+                {% load socialaccount %}
+                <p class="mx-3"> Do you have a account .</p>
+                <div class="flex justify-center space-x-10 m-4 ">
+                <a href="{% provider_login_url 'google' %}?next=/" class="fa-brands fa-google fa-lg hover:scale-110 duration-30 "></a>
+            </div>  
+        
+    </div>
+</body>
+
+
+<!-- javascript for hide and show button in password -->
+<script>
+    const show_eye=document.getElementById('show_eye')
+    const password=document.getElementById('pswd')
+    
+    show_eye.onclick=function(){
+        if (password.type=="password"){
+            password.type = "text";
+        }
+        else {
+            password.type="password";
+        }
+    }
+</script>
+</html>
